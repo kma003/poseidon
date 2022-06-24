@@ -1,7 +1,7 @@
 import tensorflow as tf
 from keras_cv import bounding_box
 
-from reef_net.utils import AnchorBox
+from poseidon.utils import AnchorBox
 
 
 class DecodePredictions(tf.keras.layers.Layer):

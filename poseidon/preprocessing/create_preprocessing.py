@@ -1,10 +1,10 @@
 import tensorflow as tf
 
-from reef_net.preprocessing.random_flip_horizontal import random_flip_horizontal
-from reef_net.preprocessing.resize_and_pad_image import resize_and_pad_image
-from reef_net.utils import convert_to_corners
-from reef_net.utils import convert_to_xywh
-from reef_net.utils import swap_xy
+from poseidon.preprocessing.random_flip_horizontal import random_flip_horizontal
+from poseidon.preprocessing.resize_and_pad_image import resize_and_pad_image
+from poseidon.utils import convert_to_corners
+from poseidon.utils import convert_to_xywh
+from poseidon.utils import swap_xy
 
 
 def noop(image, bounding_boxes):

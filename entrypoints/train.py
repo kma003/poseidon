@@ -9,15 +9,15 @@ from absl import flags
 from absl import logging
 from ml_collections.config_flags import config_flags
 
-from reef_net.callbacks import VisualizePredictions
-from reef_net.loaders import load_n_images
-from reef_net.loaders import load_reef_dataset
-from reef_net.metrics import get_metrics
-from reef_net.model import RetinaNet
-from reef_net.model import get_backbone
-from reef_net.preprocessing import create_preprocessing_function
-from reef_net.utils import LabelEncoder
-from reef_net.utils import visualize_detections
+from poseidon.callbacks import VisualizePredictions
+from poseidon.loaders import load_n_images
+from poseidon.loaders import load_reef_dataset
+from poseidon.metrics import get_metrics
+from poseidon.model import RetinaNet
+from poseidon.model import get_backbone
+from poseidon.preprocessing import create_preprocessing_function
+from poseidon.utils import LabelEncoder
+from poseidon.utils import visualize_detections
 
 config_flags.DEFINE_config_file("config", "configs/main.py")
 
@@ -120,7 +120,7 @@ def main(args):
     if FLAGS.wandb:
         wandb.init(
             project=config.wandb_project_name,
-            entity="reef-net",
+            entity="poseidon",
             config=config.to_dict(),
         )
         if FLAGS.experiment_name:

@@ -8,10 +8,10 @@ from absl import flags
 from absl import logging
 from ml_collections.config_flags import config_flags
 
-import reef_net
-from reef_net.utils import convert_to_corners
-from reef_net.utils import convert_to_xywh
-from reef_net.utils import swap_xy
+import poseidon
+from poseidon.utils import convert_to_corners
+from poseidon.utils import convert_to_xywh
+from poseidon.utils import swap_xy
 
 FLAGS = flags.FLAGS
 
@@ -43,7 +43,7 @@ def visualize_bounding_boxes(img, bbox, category):
 
 def main(args):
     config = FLAGS.config
-    ds, dataset_size = reef_net.loaders.load_reef_dataset(
+    ds, dataset_size = poseidon.loaders.load_reef_dataset(
         config, "custom_csv/train.csv", min_boxes_per_image=5
     )
     ds = ds.shuffle(20)

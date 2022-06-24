@@ -5,9 +5,9 @@ from absl import flags
 from ml_collections.config_flags import config_flags
 from tensorflow import keras
 
-from reef_net.loaders import load_reef_dataset
-from reef_net.utils import AnchorBox
-from reef_net.utils import convert_to_corners
+from poseidon.loaders import load_reef_dataset
+from poseidon.utils import AnchorBox
+from poseidon.utils import convert_to_corners
 
 
 class RetinaNetLoss(tf.losses.Loss):
