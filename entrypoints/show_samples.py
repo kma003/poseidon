@@ -2,7 +2,7 @@ import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
-import wandb
+#import wandb
 from absl import app
 from absl import flags
 from absl import logging
@@ -13,10 +13,12 @@ from poseidon.utils import convert_to_corners
 from poseidon.utils import convert_to_xywh
 from poseidon.utils import swap_xy
 
+from reef_net.loaders.scisrs_loader import load_scisrs_dataset
+
 FLAGS = flags.FLAGS
 
 
-config_flags.DEFINE_config_file("config", "configs/main.py")
+config_flags.DEFINE_config_file("config", "configs/scisrs.py")
 
 
 def visualize_bounding_boxes(img, bbox, category):
@@ -38,14 +40,21 @@ def visualize_bounding_boxes(img, bbox, category):
     for annotation in bbox:
         x1, y1, x2, y2 = annotation.astype(int)
         img = cv2.rectangle(img, (x1, y1), (x2, y2), (255, 0, 0), 3)
+        #img = cv2.rectangle(img, (x1, y1), (x2, y2), (1, 0, 0), 3)
+
     return img
 
+def load_dataset(config):
+    if config.dataset == 'scisrs':
+        return poseidon.loaders.load_scisrs_dataset(config, f"{config.custom_path}/train.csv")
+    if config.dataset == 'tensorflow-great-barrier-reef':
+        return poseidon.loaders.load_reef_dataset(config, f"custom_csv/train.csv")
+    else:
+        raise ValueError(f"unsupported dataset {config.dataset}")
 
 def main(args):
     config = FLAGS.config
-    ds, dataset_size = poseidon.loaders.load_reef_dataset(
-        config, "custom_csv/train.csv", min_boxes_per_image=5
-    )
+    ds, dataset_size = load_dataset(config)
     ds = ds.shuffle(20)
 
     (image, bounding_boxes, category) = next(iter(ds.take(100)))
@@ -55,6 +64,7 @@ def main(args):
         category.numpy(),
     )
     plt.imshow(image / 255.0)
+    #plt.imshow(image)
     plt.axis("off")
     plt.show()
     print("Category", category)
@@ -63,6 +73,7 @@ def main(args):
 
     image = visualize_bounding_boxes(image, bounding_boxes, category)
     plt.imshow(image / 255.0)
+    #plt.imshow(image)
     plt.axis("off")
     plt.show()
 

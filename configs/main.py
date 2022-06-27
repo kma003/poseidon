@@ -4,6 +4,8 @@ import ml_collections
 def get_config() -> ml_collections.ConfigDict:
     config = ml_collections.ConfigDict()
     config.wandb_project_name = "poseidon"
+
+    config.dataset = "tensorflow-great-barrier-reef"
     config.data_path = "data/tensorflow-great-barrier-reef"
     config.custom_path = "metadata/great-barrier-reef-custom-splits"
 
