@@ -76,7 +76,6 @@ class RetinaNet(keras.Model):
     def _update_metrics(self, y_for_metrics, result):
         # COCO metrics are all stored in compiled_metrics
         # This tf.cond is needed to work around a TensorFlow edge case in Ragged Tensors
-        tf.print(result)
         tf.cond(
             tf.shape(result)[2] != 0,
             lambda: self.compiled_metrics.update_state(y_for_metrics, result),
