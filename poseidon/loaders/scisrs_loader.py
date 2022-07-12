@@ -18,7 +18,6 @@ from configs.scisrs import get_config
 
 def parse_annotation_file(annotation_filename:str) -> Tuple[np.ndarray,np.ndarray]:
 
-
     # First entry in a line is the label, other entries are bbox coordinates
     labels = []
     bboxes = []
@@ -45,22 +44,6 @@ def load_scisrs_dataset(config, csv_path):
 
     image_paths = df["image_path"]
     annotation_paths = df["annotation_path"]
-
-    # testing
-    # img = cv2.imread(image_paths[0])
-    # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB).astype(np.float32)
-    # img /= 255.0
-    # cv2.imshow('test',img)
-    # cv2.waitKey(0)
-    # cv2.destroyAllWindows()
-
-    # annotation = parse_annotation_file(annotation_paths[0])
-    # yolo_bboxes = annotation[0]
-    # labels = annotation[1]
-
-    # bboxes = np.zeros(yolo_bboxes.shape)
-    # print(yolo_bboxes,labels,bboxes)
-    # print(img.shape,bboxes.shape,labels.shape)
 
     def dataset_generator():
         for image_path, annotation_path in zip(image_paths,annotation_paths):

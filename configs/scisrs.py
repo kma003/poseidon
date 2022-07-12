@@ -11,7 +11,7 @@ def get_config() -> ml_collections.ConfigDict:
     config.train_path = "train.csv"
     config.val_path = "val.csv"
 
-    # config.augmentation_mode = "random_flip"
+    config.augmentation_mode = "random_flip"
 
     config.batch_size = 2
     config.num_classes = 1
