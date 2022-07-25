@@ -30,6 +30,15 @@ def parse_annotation_file(annotation_filename:str) -> Tuple[np.ndarray,np.ndarra
 
     return (np.array(bboxes),np.array(labels))
 
+def load_n_images(
+    config,
+    csv_path,
+    n,
+    min_boxes_per_image=0,
+):
+    ds, _ = load_scisrs_dataset(config, csv_path)
+    return next(iter(ds.take(n)))
+
 
 def load_scisrs_dataset(config, csv_path):
     
