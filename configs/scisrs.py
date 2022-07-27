@@ -17,7 +17,7 @@ def get_config() -> ml_collections.ConfigDict:
     config.num_classes = 1
     config.input_shape = (500, 500, 3)
 
-    config.epochs = 150#300
+    config.epochs = 300
     config.steps_per_epoch = 1000
     config.validation_steps = 300
 

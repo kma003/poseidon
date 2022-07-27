@@ -69,7 +69,7 @@ def get_callbacks(config, checkpoint_filepath, val_path, train_path):
 
 
 def get_strategy():
-    return tf.distribute.MirroredStrategy(devices=['/gpu:0','/gpu:1','/gpu:2','/gpu:3'])
+    return tf.distribute.MirroredStrategy()
 
 
 def get_checkpoint_path():
@@ -163,7 +163,7 @@ def main(args):
 
     ########## ---------- XXXXXXXXXX ---------- ##########
     # Create model + distribution strategy + optimizer
-    strategy = tf.distribute.MirroredStrategy(devices=['/gpu:0','/gpu:1','/gpu:2','/gpu:3'])
+    strategy = tf.distribute.MirroredStrategy()
     resnet50_backbone = get_backbone()
     model = RetinaNet(
         config.num_classes,
