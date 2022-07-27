@@ -11,7 +11,7 @@ from ml_collections.config_flags import config_flags
 
 from poseidon.callbacks import VisualizePredictions
 from poseidon.loaders.scisrs_loader import load_n_images
-from poseidon.loaders.scisrs_loader import load_reef_dataset
+from poseidon.loaders.scisrs_loader import load_scisrs_dataset
 from poseidon.metrics import get_metrics
 from poseidon.model import RetinaNet
 from poseidon.model import get_backbone

@@ -13,7 +13,8 @@ from poseidon.utils import convert_to_corners
 from poseidon.utils import convert_to_xywh
 from poseidon.utils import swap_xy
 
-from reef_net.loaders.scisrs_loader import load_scisrs_dataset
+from poseidon.loaders.reef_loader import load_reef_dataset
+from poseidon.loaders.scisrs_loader import load_scisrs_dataset
 
 FLAGS = flags.FLAGS
 
@@ -46,9 +47,9 @@ def visualize_bounding_boxes(img, bbox, category):
 
 def load_dataset(config):
     if config.dataset == 'scisrs':
-        return poseidon.loaders.load_scisrs_dataset(config, f"{config.custom_path}/train.csv")
+        return load_scisrs_dataset(config, f"{config.custom_path}/train.csv")
     if config.dataset == 'tensorflow-great-barrier-reef':
-        return poseidon.loaders.load_reef_dataset(config, f"custom_csv/train.csv")
+        return load_reef_dataset(config, f"custom_csv/train.csv")
     else:
         raise ValueError(f"unsupported dataset {config.dataset}")
 
@@ -63,13 +64,6 @@ def main(args):
         bounding_boxes.numpy(),
         category.numpy(),
     )
-    plt.imshow(image / 255.0)
-    #plt.imshow(image)
-    plt.axis("off")
-    plt.show()
-    print("Category", category)
-    print("Image size", image.shape)
-    print(category)
 
     image = visualize_bounding_boxes(image, bounding_boxes, category)
     plt.imshow(image / 255.0)
