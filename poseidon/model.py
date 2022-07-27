@@ -51,8 +51,6 @@ class RetinaNet(keras.Model):
             num_classes=num_classes, batch_size=batch_size
         )
 
-        self.gradient_norm_metric = tf.keras.metrics.Mean(name="gradient_norm")
-
     def call(self, x, training=False):
         features = self.fpn(x, training=training)
         N = tf.shape(x)[0]
@@ -103,8 +101,6 @@ class RetinaNet(keras.Model):
         trainable_vars = self.trainable_variables
         gradients = tape.gradient(loss, trainable_vars)
         # clip grads to prevent explosion
-        gradients, gradient_norm = tf.clip_by_global_norm(gradients, 5.0)
-        self.gradient_norm_metric.update_state(gradient_norm)
         self.optimizer.apply_gradients(zip(gradients, trainable_vars))
 
         # Return metric result
@@ -142,10 +138,6 @@ def get_backbone():
     return keras.Model(
         inputs=[backbone.inputs], outputs=[c3_output, c4_output, c5_output]
     )
-
-    @property
-    def metrics(self):
-        return super().metrics + [self.gradient_norm_metric]
 
 
 # --- Building the classification and box regression heads. ---

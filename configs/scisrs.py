@@ -2,7 +2,9 @@ import ml_collections
 
 def get_config() -> ml_collections.ConfigDict:
     config = ml_collections.ConfigDict()
-    config.wandb_project_name = "poseidon"
+
+    config.wandb_entity_name = "scisrs"
+    config.wandb_project_name = "scisrs"
 
     config.dataset = "scisrs"
     config.data_path = "data/scisrs/sig_images/yolo_images_dataset"
