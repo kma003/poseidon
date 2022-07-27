@@ -19,7 +19,7 @@ from poseidon.preprocessing import create_preprocessing_function
 from poseidon.utils import LabelEncoder
 from poseidon.utils import visualize_detections
 
-config_flags.DEFINE_config_file("config", "configs/main.py")
+config_flags.DEFINE_config_file("config", "configs/scisrs.py")
 
 flags.DEFINE_bool("wandb", False, "Whether to run to wandb")
 flags.DEFINE_bool("debug", False, "Whether or not to use extra debug utilities")
