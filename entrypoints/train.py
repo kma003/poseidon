@@ -10,8 +10,8 @@ from absl import logging
 from ml_collections.config_flags import config_flags
 
 from poseidon.callbacks import VisualizePredictions
-from poseidon.loaders import load_n_images
-from poseidon.loaders import load_reef_dataset
+from poseidon.loaders.scisrs_loader import load_n_images
+from poseidon.loaders.scisrs_loader import load_scisrs_dataset
 from poseidon.metrics import get_metrics
 from poseidon.model import RetinaNet
 from poseidon.model import get_backbone
@@ -140,8 +140,8 @@ def main(args):
     base_path = config.custom_path
     train_path = os.path.abspath(os.path.join(base_path, config.train_path))
 
-    train_ds, train_dataset_size = load_reef_dataset(
-        config, train_path, min_boxes_per_image=1
+    train_ds, train_dataset_size = load_scisrs_dataset(
+        config, train_path#, min_boxes_per_image=1
     )
     train_ds = prepare_dataset(
         train_ds,
@@ -153,8 +153,8 @@ def main(args):
     ########## ---------- XXXXXXXXXX ---------- ##########
     # Load validation data
     val_path = os.path.abspath(os.path.join(base_path, config.val_path))
-    val_ds, val_dataset_size = load_reef_dataset(
-        config, val_path, min_boxes_per_image=1
+    val_ds, val_dataset_size = load_scisrs_dataset(
+        config, val_path#, min_boxes_per_image=1
     )
     val_ds = prepare_dataset(
         val_ds, label_encoder, eval_preprocessing_function, batch_size=config.batch_size

@@ -1,13 +1,12 @@
 import ml_collections
 
-
 def get_config() -> ml_collections.ConfigDict:
     config = ml_collections.ConfigDict()
     config.wandb_project_name = "poseidon"
 
-    config.dataset = "tensorflow-great-barrier-reef"
-    config.data_path = "data/tensorflow-great-barrier-reef"
-    config.custom_path = "metadata/great-barrier-reef-custom-splits"
+    config.dataset = "scisrs"
+    config.data_path = "data/scisrs/sig_images/yolo_images_dataset"
+    config.custom_path = "metadata/scisrs"
 
     config.train_path = "train.csv"
     config.val_path = "val.csv"
@@ -16,7 +15,7 @@ def get_config() -> ml_collections.ConfigDict:
 
     config.batch_size = 2
     config.num_classes = 1
-    config.input_shape = (720, 1280, 3)
+    config.input_shape = (500, 500, 3)
 
     config.epochs = 300
     config.steps_per_epoch = 1000
