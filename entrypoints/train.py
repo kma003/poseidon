@@ -32,6 +32,21 @@ flags.DEFINE_string("experiment_name", None, "wandb experiment name")
 FLAGS = flags.FLAGS
 AUTOTUNE = tf.data.AUTOTUNE
 
+def tf_cap_memory():
+    gpus = tf.config.experimental.list_physical_devices('GPU')    
+    if gpus:
+        for gpu in gpus:
+            try:
+                tf.config.experimental.set_memory_growth(gpu, True)
+            except RuntimeError as e:
+                # Memory growth must be set before GPUs have been initialized
+                print(e)
+
+def set_visible_gpus(IDs):
+    physical_devices = tf.config.list_physical_devices('GPU')
+    visible_gpus = [physical_devices[i] for i in IDs]
+    tf.config.set_visible_devices(visible_gpus,'GPU')
+    
 
 def get_callbacks(config, checkpoint_filepath, val_path, train_path):
     callbacks = []
@@ -63,13 +78,13 @@ def get_callbacks(config, checkpoint_filepath, val_path, train_path):
         callbacks += [vis_callback_train]
 
     if FLAGS.wandb:
-        callbacks += [wandb.keras.WandbCallback()]
+        callbacks += [wandb.keras.WandbCallback(save_model=False)]
 
     return callbacks
 
 
 def get_strategy():
-    return tf.distribute.MirroredStrategy()
+    return tf.distribute.MirroredStrategy(["GPU:2","GPU:3"])
 
 
 def get_checkpoint_path():
@@ -102,6 +117,13 @@ def prepare_dataset(dataset, label_encoder, preprocessing_function, batch_size=8
 
 
 def main(args):
+    # Set visible devices
+    GPU_IDs = [3]
+    set_visible_gpus(GPU_IDs)
+
+    # Cap memory growth
+    tf_cap_memory()
+
     del args
     config = FLAGS.config
 
@@ -163,7 +185,7 @@ def main(args):
 
     ########## ---------- XXXXXXXXXX ---------- ##########
     # Create model + distribution strategy + optimizer
-    strategy = tf.distribute.MirroredStrategy()
+    strategy = tf.distribute.MirroredStrategy(["GPU:2","GPU:3"])
     resnet50_backbone = get_backbone()
     model = RetinaNet(
         config.num_classes,
